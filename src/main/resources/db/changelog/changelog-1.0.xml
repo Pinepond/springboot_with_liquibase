@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <changeSet author="admin" id="1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="ID_SEQ"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="ID_SEQ" />
+    </changeSet>
+    <changeSet author="admin" id="2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ORDER"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ORDER">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin" id="3">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="hsqldb"/>
+        </preConditions>
+        <sql>INSERT INTO ORDER VALUES(NEXT VALUE FOR ID_SEQ, 'order1');</sql>
+    </changeSet>
+    <changeSet author="admin" id="4">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="postgresql"/>
+        </preConditions>
+        <sql>INSERT INTO ORDER VALUES(NEXT VALUE FOR ID_SEQ, 'order2');</sql>
+    </changeSet>
+    <changeSet author="admin" id="5">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <dbms type="postgresql"/>
+                <dbms type="hsqldb"/>
+            </or>
+        </preConditions>
+        <sql>INSERT INTO ORDER VALUES(NEXT VALUE FOR ID_SEQ, 'order3');</sql>
+    </changeSet>
+</databaseChangeLog>

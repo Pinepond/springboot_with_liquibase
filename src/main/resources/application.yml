@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    password: ''
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    username: SA
+    url: jdbc:hsqldb:hsql://localhost:9788/testdb
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.xml
